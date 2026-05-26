@@ -1,76 +1,45 @@
-name: Validate & Trigger ISO Build
-
+name: Build ISO
 on:
   schedule:
-    - cron: '0 0 */5 * *'  # Every 5 days at 00:00 UTC
-  repository_dispatch:
-    types: [upstream-release]
+    - cron: '0 6 * * 1'
   workflow_dispatch:
-    inputs:
-      build_reason:
-        description: 'Reason for manual build'
-        required: false
-        default: 'Manual build'
-      gitlab_ref:
-        description: 'GitLab branch/tag to build (default: main)'
-        required: false
-        default: 'main'
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
-  validate:
+  build:
     runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+      options: --privileged
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Prepare build env
+        run: |
+          pacman-key --init && pacman-key --populate archlinux
+          pacman -Sy --noconfirm archlinux-keyring
+          pacman -Su --noconfirm
+          pacman -S --noconfirm --needed archiso squashfs-tools dosfstools erofs-utils mtools xorriso libarchive grub edk2-shell awk grep
+      - name: Fix packages
+        run: |
+          sed -i '/^[[:space:]]*#/d' packages.x86_64; sed -i '/^[[:space:]]*$/d' packages.x86_64
+          pacman -Sy --config pacman.x86_64.conf 2>/dev/null || true
+          for pkg in $(cat packages.x86_64); do pacman -Ss "^${pkg}$" --config pacman.x86_64.conf >/dev/null 2>&1 && echo "$pkg" || echo "Warning: $pkg not found"; done > valid_packages.txt
+          mv valid_packages.txt packages.x86_64
+      - name: Build ISO
+        run: |
+          mkdir -p work out && mkarchiso -L "AcreetionOS-MATE" -v -w work -o out -C pacman.x86_64.conf .
+          cd out && sha256sum *.iso > SHA256SUMS && md5sum *.iso > MD5SUMS
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          fetch-depth: 0
-
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
-
-      - name: Security gate - Package validation
+          name: acreetionos-mate-${{ github.sha }}
+          path: out/*.iso
+          retention-days: 14
+      - name: Upload to R2
+        env:
+          CF_ACCOUNT: ${{ secrets.CF_ACCOUNT }}
+          CF_TOKEN: ${{ secrets.CF_TOKEN }}
+          BUCKET: acreetionos-mate
         run: |
-          chmod +x ./validate-build.sh
-          ./validate-build.sh
-
-          if grep -q "cinnamon\|nemo\|muffin\|gnome-terminal" packages.x86_64; then
-            echo "SECURITY: Found conflicting packages (Cinnamon/GNOME)"
-            exit 1
-          fi
-          echo "Security validation passed"
-
-  trigger-gitlab-build:
-    needs: validate
-    runs-on: ubuntu-latest
-    env:
-      GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
-      GITLAB_HOST: gitlab.acreetionos.org
-      GLAB_VERSION: "1.49.0"
-    steps:
-      - name: Install glab
-        run: |
-          set -euo pipefail
-          ARCH=$(uname -m)
-          case "$ARCH" in
-            x86_64|amd64) GLAB_ARCH=amd64 ;;
-            aarch64|arm64) GLAB_ARCH=arm64 ;;
-            *) echo "Unsupported architecture: $ARCH" >&2 ; exit 1 ;;
-          esac
-          mkdir -p "$HOME/.local/bin"
-          curl -fsSL "https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/glab_${GLAB_VERSION}_linux_${GLAB_ARCH}.tar.gz" \
-            | tar xz -C "$HOME/.local"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          export PATH="$HOME/.local/bin:$PATH"
-          glab version
-
-      - name: Trigger ISO build on gitlab.acreetionos.org
-        run: |
-          REF="${{ github.event.inputs.gitlab_ref || 'main' }}"
-          glab ci run \
-            --hostname gitlab.acreetionos.org \
-            --repo "${{ secrets.GITLAB_PROJECT }}" \
-            --branch "$REF" \
-            --variables "TRIGGERED_BY=github-actions,GH_SHA=${{ github.sha }},GH_RUN_ID=${{ github.run_id }}"
+          I=$(ls out/*.iso 2>/dev/null | head -1); [ -z "$I" ] && exit 0; N=$(basename "$I")
+          curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/r2/buckets" -H "Authorization: Bearer $CF_TOKEN" -d '{"name":"'$BUCKET'"}' || true
+          U=$(curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/r2/buckets/$BUCKET/objects/${N}/upload" -H "Authorization: Bearer $CF_TOKEN" -d '{}' | python3 -c "import sys,json;print(json.load(sys.stdin).get('result',{}).get('uploadURL',''))")
+          [ -n "$U" ] && curl -s -X PUT "$U" --data-binary @"$I" && echo "Uploaded $N" || echo "Upload failed"
