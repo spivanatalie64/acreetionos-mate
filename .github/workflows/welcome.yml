@@ -1,0 +1,18 @@
+name: Welcome new contributors
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: 'Welcome! Thank you for opening your first issue in AcreetionOS-Mate!'
+          pr-message: 'Welcome! Thank you for your first pull request!'
