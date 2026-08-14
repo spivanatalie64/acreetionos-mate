@@ -1,90 +1,44 @@
-# AcreetionOS Linux Number 1
-# copyright 2025
-Welcome to AcreetionOS Linux, an open-source project aimed at providing the user a stable and up-to-date experience.
+# AcreetionOS MATE Edition
 
-Download ISO here: https://acreetionos.org
+A modern take on the traditional desktop. Simple, familiar, and dependable.
 
-**Direct ISO download (latest release):** https://gitlab.acreetionos.org/AcreetionOS/acreetionos-mate/-/releases
-
-## Project Overview
-
-AcreetionOS Linux is a community-driven effort to build a lightweight, versatile Linux distribution. AcreetionOS Linux is currently based on Arch Linux, but the future goal is to be a parallel* distribution with our own base. Our goal is to provide a solid foundation for both everyday users and developers, with a focus on simplicity, ease of use, and stability; all while keeping packages up to date.
-
-For a detailed look at our recent technical enhancements and performance optimizations, see [IMPROVEMENTS.md](./IMPROVEMENTS.md).
+> A self-contained [AcreetionOS](https://acreetionos.org) community edition.
+> Builds standalone from standard Arch Linux mirrors — no custom repos required.
 
 ## Features
 
-- Lightweight base system
-- Standardized Package Selection
-- User-friendly installation process
-- x86_64, i686, ARM (aarch64/armv7h), and RISC-V support.
+- MATE desktop + extra apps
+- LightDM display manager
+- Pluma text editor
+- MATE Terminal
 
-## Multi-Architecture Support
+## Build
 
-AcreetionOS Lite now supports multiple architectures:
-- **x86_64** (64-bit PC)
-- **i686** (32-bit PC)
-- **aarch64** (ARM64, e.g., Raspberry Pi 4)
-- **armv7h** (ARM32)
-- **riscv64** (RISC-V)
-
-### Building for a Specific Architecture
-
-To build for a specific architecture, pass the architecture as an argument to `build-mate.sh`:
+Requirements: `archiso` (or Docker/Podman with an `archlinux:latest` image).
 
 ```bash
-# Build for x86_64 (Default)
-./build-mate.sh x86_64
-
-# Build for ARM64
-./build-mate.sh aarch64
-
-# Build for 32-bit x86
-./build-mate.sh i686
-
-# Build for RISC-V
-./build-mate.sh riscv64
+git clone https://github.com/spivanatalie64/acreetionos-mate.git
+cd acreetionos-mate
+./build.sh
 ```
 
-Note: Building for non-native architectures requires `qemu-user-static` and `binfmt-support` installed and configured on the build host.
+The ISO lands in `../ISO/`. Checksums are generated alongside.
 
-## Getting Started
+## Layout
 
-To get started with AcreetionOS Linux, you can:
+| Path | Purpose |
+|------|---------|
+| `profiledef.sh` | Edition metadata (name, label, arch, boot modes) |
+| `packages.x86_64` | Static package list (verified against Arch repos) |
+| `pacman.conf` | Standard Arch mirrors (legacy custom repos commented) |
+| `airootfs/` | Live-environment overlay (DMs, configs, wallpapers) |
+| `grub/` `syslinux/` `efiboot/` | Bootloader configs |
+| `.github/workflows/` | CI: weekly ISO build + linting |
 
-1. Download the latest ISO from our [GitLab Releases](https://gitlab.acreetionos.org/AcreetionOS/acreetionos-mate/-/releases) or [Website](https://acreetionos.org)!
-2. Create a bootable USB drive using tools like [Etcher]("https://etcher.balena.io/#download-etcher"), [Rufus]("https://rufus.ie/en/"), or [Ventoy]("https://ventoy.net/en/index.html").
-3. Boot from the USB drive and follow the installation instructions
+## Community
 
-*     Ventoy MUST use GRUB MODE 2, if you use grub by its self will not boot correctly if at all.*
-## Contributing
+- **Discord:** AcreetionOS Community Server
+- **Issues:** https://github.com/spivanatalie64/acreetionos-mate/issues
+- **Website:** https://acreetionos.org
 
-We welcome contributions from the community! Please see our [Contributing Guide](https://github.com/AcreetionOS/acreetionos-mate/blob/main/docs/AUTOBUILD.md) file for guidelines on how to get involved.
-
-## Security Workflow
-
-The `Security Scanning & Compliance` GitHub Actions workflow supports a manual `grype_version` override.
-
-To use it, open the workflow in the Actions tab, choose `Run workflow`, and optionally pass a version tag such as `v0.62.0`.
-
-## Roadmap
-
-Our current goal is to release a stable distribution by the end of 2026. Check out our [project status](./PROJECT_STATUS.txt) and [Phase 8 readiness assessment](./PHASE8-READINESS.md) for more details on upcoming features and milestones.
-
-## Project Information
-
-- **Project Status:** In active development
-- **License:** MIT
-- **Maintainers:** Darren Clift (@cobra3282000), Johnathan Spiva (@sprunglesongithub) or (@Sprungles)
-
-
-## Contact
-
-For questions, suggestions, or support, please [open an issue](https://github.com/AcreetionOS/acreetionos-mate/issues) on our GitHub repository.
-
-Thank you for your interest in AcreetionOS Linux!
-
-
-## Definitions:
-
-*Parallel Distribution: A distribution similar to, but having a different goal and future goal set.
+Licensed under [GPL-3.0](LICENSE).

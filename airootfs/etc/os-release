@@ -1,10 +1,7 @@
-NAME="AcreetionOS Lite"
-PRETTY_NAME="Acreetion Linux Lite"
-ID=acreetion-lite
-BUILD_ID=rolling
-ANSI_COLOR="38;2;23;147;209"
-HOME_URL="https://acreetionos.org/"
-DOCUMENTATION_URL="https://github.com/AcreetionOS"
-SUPPORT_URL="https://discord.gg/JTuQs4M5WD"
-BUG_REPORT_URL="https://github.com/AcreetionOS/acreetionos/issues"
-PRIVACY_POLICY_URL="https://github.com/AcreetionOS/acreetionos/blob/main/PRIVACY.md"
+NAME="AcreetionOS"
+ID=acreetionos
+PRETTY_NAME="AcreetionOS MATE"
+VERSION_ID="1.0"
+HOME_URL="https://acreetionos.org"
+SUPPORT_URL="https://discord.gg/VHqQkJASw7"
+BUG_REPORT_URL="https://github.com/spivanatalie64/acreetionos-mate/issues"

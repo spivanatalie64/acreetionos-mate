@@ -1,2 +1,3 @@
-export PACMAN_OPTS="--overwrite '*'"
-./mkarchiso -L AcreetionOS -v -o ../ISO . -C ./pacman.conf
+#!/usr/bin/env bash
+set -euo pipefail
+exec mkarchiso -L "acreetionOS_mate_202608" -v -o ../ISO . -C ./pacman.conf

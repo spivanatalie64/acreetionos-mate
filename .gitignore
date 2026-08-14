@@ -1,18 +1,22 @@
-# Archiso build artifacts
+# Build artifacts
 work/
 out/
+*.iso
+*.iso.*
+ISO/
 
-# Temporary files
-temp.txt
-test.txt
-mergeresults.txt
+# System files
+*~
+*.swp
+*.swo
 
-# Log files
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Build logs
 *.log
-
-# C objects
-*.o
-mkarchiso
-
-# Generated version file
-.buildversion

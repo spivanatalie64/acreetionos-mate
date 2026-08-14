@@ -1,36 +1,34 @@
 ################################################################################
-# AcreetionOS Lite Package List v2.5
-# Optimized for 1-Core CPU / 2GB RAM / High-Performance "Lite" Experience
-################################################################################
-
-#===============================================================================
-# 1. CORE SYSTEM
-#===============================================================================
-# [Subcategory: Base System]
+# AcreetionOS Package List v2.0 just using this see if our gitlab is working
+# Optimized for minimal ISO size while maintaining full functionality
+# update line  
+# CORE SYSTEM - Essential base system packages
 base
 linux
 linux-headers
+linux-atm
 linux-firmware
-calamares
-calamares-config
+linux-firmware-marvell
+linux-firmware-qlogic
+linux-firmware-whence
 mkinitcpio
 mkinitcpio-archiso
+mkinitcpio-nfs-utils
+mkinitcpio-busybox
+mkinitcpio-systemd-tool
 sudo
 dbus
 polkit
+polkit-gnome
 arch-install-scripts
 
-# [Subcategory: Boot & Firmware]
+# BOOT & BOOTLOADER - Required for booting the ISO and installing bootloader
 grub
 syslinux
 efibootmgr
 os-prober
 plymouth
-intel-ucode
-amd-ucode
-mkinitcpio-firmware
-
-# [Subcategory: Filesystem Support]
+# FILESYSTEM SUPPORT - Essential filesystem tools for installation
 dosfstools
 e2fsprogs
 exfatprogs
@@ -39,192 +37,221 @@ ntfs-3g
 squashfs-tools
 gptfdisk
 parted
+gpart
 device-mapper
+# ENCRYPTION & SECURITY
+cryptsetup
+# ADVANCED STORAGE - Required for Calamares disk detection
 lvm2
 mdadm
-cryptsetup
-
-#===============================================================================
-# 2. PERFORMANCE & OPTIMIZATION (Lite Core)
-#===============================================================================
-# [Subcategory: Memory Management]
-zram-generator          # Doubling RAM efficiency via compressed swap
-earlyoom                # Protecting system stability under low RAM pressure
-
-# [Subcategory: Process & Disk Optimization]
-preload                 # Intelligent application pre-caching
-pv                      # Progress monitor for pipe operations
-
-#===============================================================================
-# 3. NETWORKING
-#===============================================================================
-# [Subcategory: Connectivity]
+# NETWORKING - Core networking components
 networkmanager
 network-manager-applet
-nm-connection-editor    # Advanced network configuration
 dhcpcd
 dhclient
-wpa_supplicant
+iw
 iwd
-
-# [Subcategory: Bluetooth]
-bluez
-bluez-utils
-blueman                 # User-friendly Bluetooth manager
-
-# [Subcategory: Remote & Sync]
+wpa_supplicant
+wireless-regdb
+wireless_tools
 openssh
 rsync
-
-#===============================================================================
-# 4. GRAPHICS & DISPLAY
-#===============================================================================
-# [Subcategory: X11 Server]
-xorg
-mesa
-mesa-utils
-glu
-numlockx
-
-# [Subcategory: Drivers]
-xf86-video-amdgpu
-xf86-video-intel
-xf86-video-nouveau
-xf86-input-libinput
-
-# [Subcategory: Display Manager]
-lightdm
-lightdm-gtk-greeter
-
-#===============================================================================
-# 5. AUDIO & MULTIMEDIA
-#===============================================================================
+# AUDIO SYSTEM
 alsa-utils
 pipewire-pulse
 wireplumber
 pavucontrol
-vlc                     # Universal media player
 sof-firmware
-
-#===============================================================================
-# 6. MATE DESKTOP ENVIRONMENT (Lite Experience)
-#===============================================================================
-# [Subcategory: MATE Core]
-mate
-mate-extra
-marco                   # Optimized window manager (compositing disabled in dconf)
-caja                    # Lightweight file manager
-mate-terminal           # Fast, native terminal
-mate-control-center
-mate-polkit             # Native MATE authentication agent
-mate-tweak              # Performance and layout customization
-
-# [Subcategory: Lite Interface]
-brisk-menu              # Modern searchable menu (Cinnamon-style)
-mate-notification-daemon
-mate-power-manager
-mate-screensaver
-mate-utils
-
-# [Subcategory: System Portals]
-xdg-desktop-portal-gtk  # Lightweight portal implementation
+# DISPLAY SERVER & GRAPHICS
+xorg-server
+xorg-server-common
+mesa
+mesa-utils
+glu
+vulkan-headers
+ocl-icd
+opencl-headers
+directx-headers
+# GRAPHICS DRIVERS
+xf86-video-amdgpu
+xf86-video-intel
+xf86-video-nouveau
+xf86-input-libinput
+# DISPLAY MANAGER
+lightdm
+lightdm-gtk-greeter
+# CINNAMON DESKTOP ENVIRONMENT
+gnome-terminal
+gnome-keyring
+gnome-themes-extra
+# DESKTOP INTEGRATION & PORTALS
+xdg-desktop-portal-xapp
 xdg-user-dirs
 xdg-user-dirs-gtk
 xdg-utils
 accountsservice
-
-#===============================================================================
-# 7. APPLICATIONS & UTILITIES
-#===============================================================================
-# [Subcategory: Web]
-firefox                 # Default secure browser
-
-# [Subcategory: Software Management]
-pamac-gtk3              # User-friendly software center (AUR/ACUR support)
-yay                     # CLI AUR helper (if enabled in repo)
-
-# [Subcategory: Native Utilities]
-archinstall
-zenity
-pluma                   # Lite text editor
-atril                   # Document viewer
-eom                     # Image viewer
-engrampa                # Archive manager
-mate-calc               # Calculator
-mate-system-monitor     # Task manager
-fastfetch               # System information tool
-
-# [Subcategory: Editing & Tools]
+# QT6 LIBRARIES - Required for Calamares installer
+qt6-5compat
+qt6-base
+qt6-declarative
+qt6-shadertools
+qt6-svg
+qt6-tools
+qt6-translations
+# qt6-wayland
+qt6-multimedia-ffmpeg
+qt6-multimedia-gstreamer
+qca-qt6
+kcrash
+# CALAMARES INSTALLER - System installer and dependencies
+kpmcore
+yaml-cpp
+libpwquality
+# SYSTEM UTILITIES
+diffutils
+fakeroot
 nano
 nano-syntax-highlighting
 zsh
-eza                    # Modern ls replacement (colored, icons)
-bat                    # Modern cat replacement with syntax highlighting
-fzf                    # Fuzzy finder for CLI
-btop                   # Modern system monitor (lighter than htop)
-curl                   # HTTP client
-wget                   # Download utility
-git                    # Version control
-tmux                   # Terminal multiplexer
-ripgrep                # Fast grep alternative
-httpie                 # User-friendly HTTP client
-jq                     # JSON processor
-duf                    # Better df output
-tldr                   # Simplified man pages
-
-# [Subcategory: Screenshot & Screen Recording]
-spectacle              # KDE screenshot tool (fallback)
-
-cups                   # Printing support
-
-#===============================================================================
-# 8. THEMES, ICONS & FONTS
-#===============================================================================
-# [Subcategory: Appearance]
-papirus-icon-theme      # Modern, comprehensive icon set
-adwaita-icon-theme      # Fallback icons
-qt5ct                   # Qt5 Configuration Tool
-qt6ct                   # Qt6 Configuration Tool
-
-# [Subcategory: Typography]
-gnu-free-fonts
-
-#===============================================================================
-# 9. HARDWARE & COMPATIBILITY
-#===============================================================================
+cups
+# HARDWARE SUPPORT & UTILITIES
 usbutils
+libusb-compat
+ddcutil
+broadcom-wl-dkms
+ppp
 nvme-cli
 smartmontools
-broadcom-wl-dkms        # Broadcom WiFi support
-open-vm-tools           # Virtualization support
-qemu-guest-agent        # QEMU support
+# ACCESSIBILITY
+espeakup
+# LIBRARIES & DEPENDENCIES
+gnutls
+glib-networking
+libnm
+libpulse
+libxcb
+libxrandr
+xfconf
+zlib
+nettle
+lib32-nettle
+libnsl
+# PYTHON - Required for various system tools
+python
+python-six
+python-pam
+# APPLICATIONS
+firefox
+# THEMES & ICONS
+adwaita-icon-theme
+gnu-free-fonts
+# MISCELLANEOUS
+livecd-sounds
+mailcap
+mtools
+# COMMENTED OUT - Previously included, kept for reference
+# Hardware microcode
+#amd-ucode
+intel-ucode
+# Additional filesystems (uncomment if needed)
+chrony
+#btrfs-progs
+#xfsprogs
+# Advanced features (uncomment if needed)
+# Alternative terminals
+#cosmic-terminal
+# File compression/archive tools
+#xarchiver
+# Backup tools
+#timeshift
+# Package managers
+#yay-bin
+#libpamac-aur
+# Media players
+vlc
+# System monitoring
+gnome-system-monitor
+# Themes
+#numix-themes
+# Text editors
+# File managers
+# Network sharing
+samba
+# System info
+fastfetch
+# Development tools (uncomment if needed for building packages)
+base-devel
+git
+python-pip
+rust
+nodejs
+# Advanced networking (uncomment if needed)
+#bind
+#dnsmasq
+#openconnect
+#openvpn
+#pptpclient
+#rp-pppoe
+#vpnc
+#xl2tpd
+#wvdial
+# Virtualization guest tools (uncomment if needed)
+open-vm-tools
+qemu-guest-agent
 virtualbox-guest-utils-nox
-
-#===============================================================================
-# 10. OPTIONAL / DEVELOPMENT (Commented)
-#===============================================================================
-#base-devel
-#git
-#python-pip
-#rust
-#nodejs
-#samba
-#gedit
-#webapp-manager
-
-#===============================================================================
-# ACREETIONOS LITE MAPPING
-#===============================================================================
-#
-# FEATURE                     | COMPONENT IMPLEMENTATION
-# ----------------------------|-------------------------------------------------
-# 1-Core CPU Optimization     | preload (caching) + Reduced Marco Resources
-# 2GB RAM Management          | zram-generator (Swap) + earlyoom (Killer)
-# Cinnamon "Look & Feel"      | MATE Panel + Brisk Menu + Arc-Dark Theme
-# Software Management         | Pamac-GTK (GUI) + pacman (CLI)
-# System Boot Identity        | Plymouth (Acreetion) + GRUB (Galaxy Theme)
-# File Management             | Caja (Native MATE, configured for speed)
-# Network/BT Logic            | NetworkManager + Blueman + nm-applet
-# Post-Install Automation      | postinstall.sh + dconf override injection
-#
-#===============================================================================
+# Advanced storage (uncomment if needed)
+#nilfs-utils
+# Rescue/recovery tools (uncomment if needed)
+#ddrescue
+#fsarchiver
+#partclone
+#partimage
+#testdisk
+# Modem support (uncomment if needed)
+#modemmanager
+#usb_modeswitch
+#usbmuxd
+# Security/smartcard (uncomment if needed)
+#pcsclite
+#tpm2-tools
+#tpm2-tss
+# Network diagnostics (uncomment if needed)
+#nmap
+#tcpdump
+#ethtool
+#ndisc6
+# Hardware diagnostics (uncomment if needed)
+#dmidecode
+#hdparm
+#sdparm
+#sg3_utils
+#lsscsi
+# Specialized firmware (uncomment if needed for specific hardware)
+#linux-firmware-bnx2x
+#linux-firmware-liquidio
+#linux-firmware-nfp
+#linux-firmware-qcom
+#linux-firmware-mellanox
+# File managers/utilities
+#mc
+# Cloud init
+#cloud-init
+# Misc utilities
+#bolt
+b43-fwcutter
+#gpm
+pv
+#less
+#ldns
+#sequoia-sq
+#udftools
+nbd
+#nfs-utils
+open-iscsi
+# auto logger
+pacman
+dmraid
+mate
+mate-extra
+mate-terminal
+pluma
