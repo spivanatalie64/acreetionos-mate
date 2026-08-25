@@ -60,13 +60,8 @@ jobs:
               SHAFILE="SHA256SUMS"
             fi
             if [ "$(stat -c%s "$ISO")" -lt 2147483648 ]; then
-              gh release create "$TAG" "$ISO" "$SHAFILE" --repo "${{ github.repository }}"                 --title "AcreetionOS MATE build #${{ github.run_number }}"                 --notes "Automated weekly build.
-
-- Commit: ${{ github.sha }}
-- Image: \`$(basename "$ISO")\` ($SIZE)
-- Verify: \`sha256sum -c $SHAFILE\`
-
-AcreetionOS MATE — lightweight community edition with the full AcreteionOS brand theme (green #2ecc71 on dark #121212)."
+              NOTES=$'Automated weekly build.\n\n- Commit: ${{ github.sha }}\n- Image: '"$(basename "$ISO")"$' ('"$SIZE"$')\n- Verify: sha256sum -c '"$SHAFILE"$'\n\nAcreetionOS MATE — lightweight community edition with the full AcreteionOS brand theme (green #2ecc71 on dark #121212).'
+              gh release create "$TAG" "$ISO" "$SHAFILE" --repo "${{ github.repository }}" --title "AcreetionOS MATE build #${{ github.run_number }}" --notes "$NOTES"
             else
               echo "ISO still over 2GiB after xz -9 — skipping release asset (artifact remains in CI)"
             fi
