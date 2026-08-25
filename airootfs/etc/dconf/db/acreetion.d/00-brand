@@ -1,0 +1,30 @@
+# AcreetionOS MATE — brand defaults
+# Palette (website styles.css / acreetion-recovery):
+#   green #2ecc71 | bg #121212 | panel #1a1a1a | box #222222 | border #333333
+# System defaults: users can still override everything locally.
+
+[org/mate/desktop/interface]
+gtk-theme='adw-gtk3-dark'
+icon-theme='Adwaita'
+cursor-theme='Adwaita'
+toolbar-style='both-horiz'
+
+[org/mate/marco/general]
+theme='AcreetionOS'
+button-layout='menu:minimize,maximize,close'
+titlebar-font='Sans Bold 10'
+
+[org/mate/desktop/background]
+picture-filename='/usr/share/backgrounds/acreetion.jpg'
+picture-options='zoom'
+primary-color='#121212'
+secondary-color='#1a1a1a'
+
+[org/mate/panel/toplevels/top]
+orientation='top'
+expand=true
+size=30
+
+[org/mate/panel/toplevels/top/background]
+type='color'
+color='#1a1a1aff'

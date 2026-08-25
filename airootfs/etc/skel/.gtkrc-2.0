@@ -1,0 +1,8 @@
+# AcreetionOS — GTK2 fallback styling (Adwaita-dark from gnome-themes-extra)
+include "/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
+
+style "acreetion-selection" {
+  bg[SELECTED] = "#2ecc71"
+  fg[SELECTED] = "#121212"
+}
+class "GtkWidget" style "acreetion-selection"

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AcreetionOS marco theme — brand palette:
+     green #2ecc71 | bg #121212 | panel #1a1a1a | box #222222 | border #333333
+     text bright #e5e5e5 / dim #b2b2b2 -->
+<metacity_theme>
+<info>
+  <name>AcreetionOS</name>
+  <author>AcreetionOS</author>
+  <copyright>2026 AcreetionOS</copyright>
+  <date>2026</date>
+  <description>AcreetionOS dark brand theme with green accent</description>
+</info>
+
+<!--Frame Geometries-->
+<frame_geometry name="normal" rounded_top_left="false" rounded_top_right="false">
+  <distance name="left_width" value="2"/>
+  <distance name="right_width" value="2"/>
+  <distance name="bottom_height" value="2"/>
+  <distance name="left_titlebar_edge" value="0"/>
+  <distance name="right_titlebar_edge" value="0"/>
+  <distance name="button_width" value="20"/>
+  <distance name="button_height" value="18"/>
+  <distance name="title_vertical_pad" value="3"/>
+  <border name="title_border" left="8" right="8" top="2" bottom="2"/>
+  <border name="button_border" left="2" right="4" top="4" bottom="4"/>
+</frame_geometry>
+
+<frame_geometry name="normal_small_borders" parent="normal">
+  <distance name="left_width" value="0"/>
+  <distance name="right_width" value="0"/>
+  <distance name="bottom_height" value="0"/>
+</frame_geometry>
+
+<frame_geometry name="utility" title_scale="small" parent="normal"/>
+
+<frame_geometry name="border" has_title="false">
+  <distance name="left_width" value="2"/>
+  <distance name="right_width" value="2"/>
+  <distance name="bottom_height" value="2"/>
+  <distance name="left_titlebar_edge" value="0"/>
+  <distance name="right_titlebar_edge" value="0"/>
+  <distance name="button_width" value="0"/>
+  <distance name="button_height" value="0"/>
+  <distance name="title_vertical_pad" value="0"/>
+  <border name="title_border" left="0" right="0" top="0" bottom="0"/>
+  <border name="button_border" left="0" right="0" top="0" bottom="0"/>
+</frame_geometry>
+
+<!--Drawing-->
+
+<draw_ops name="blank"/>
+
+<draw_ops name="background_focused">
+  <rectangle color="#1a1a1a" x="0" y="0" width="width" height="height" filled="true"/>
+  <rectangle color="#333333" x="0" y="0" width="width" height="height" filled="false"/>
+  <rectangle color="#2ecc71" x="2" y="top_height-2" width="width-4" height="2" filled="true"/>
+</draw_ops>
+
+<draw_ops name="background_unfocused">
+  <rectangle color="#121212" x="0" y="0" width="width" height="height" filled="true"/>
+  <rectangle color="#333333" x="0" y="0" width="width" height="height" filled="false"/>
+</draw_ops>
+
+<draw_ops name="max_background_focused">
+  <rectangle color="#1a1a1a" x="0" y="0" width="width" height="height" filled="true"/>
+  <rectangle color="#2ecc71" x="0" y="top_height-2" width="width" height="2" filled="true"/>
+</draw_ops>
+
+<draw_ops name="max_background_unfocused">
+  <rectangle color="#121212" x="0" y="0" width="width" height="height" filled="true"/>
+</draw_ops>
+
+<!--Title text-->
+<draw_ops name="title_text_focused">
+  <clip x="0" y="0" width="width" height="height"/>
+  <title color="#e5e5e5"
+         x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+</draw_ops>
+
+<draw_ops name="title_text_unfocused">
+  <clip x="0" y="0" width="width" height="height"/>
+  <title color="#b2b2b2"
+         x="(width - title_width) / 2" y="(height - title_height) / 2"/>
+</draw_ops>
+
+<!--Button glyphs-->
+<draw_ops name="close_glyph">
+  <line x1="6" y1="5" x2="width-6" y2="height-5" color="#e5e5e5" width="1.5"/>
+  <line x1="width-6" y1="5" x2="6" y2="height-5" color="#e5e5e5" width="1.5"/>
+</draw_ops>
+
+<draw_ops name="minimize_glyph">
+  <rectangle color="#e5e5e5" x="5" y="height-7" width="width-10" height="2" filled="true"/>
+</draw_ops>
+
+<draw_ops name="maximize_glyph">
+  <rectangle color="#e5e5e5" x="5" y="5" width="width-10" height="height-10" filled="false"/>
+</draw_ops>
+
+<draw_ops name="unmaximize_glyph">
+  <rectangle color="#2ecc71" x="4" y="7" width="width-9" height="height-11" filled="false"/>
+  <rectangle color="#e5e5e5" x="7" y="4" width="width-9" height="height-11" filled="false"/>
+</draw_ops>
+
+<draw_ops name="menu_glyph">
+  <rectangle color="#e5e5e5" x="5" y="height/2-1" width="width-10" height="2" filled="true"/>
+  <rectangle color="#e5e5e5" x="5" y="height/2-5" width="width-10" height="2" filled="true"/>
+  <rectangle color="#2ecc71" x="5" y="height/2+3" width="width-10" height="2" filled="true"/>
+</draw_ops>
+
+<!--Focused windows-->
+<frame_style name="normal_focused" geometry="normal">
+  <piece position="entire_background" draw_ops="background_focused"/>
+  <piece position="title" draw_ops="title_text_focused"/>
+  <piece position="titlebar" draw_ops="background_focused"/>
+  <button function="close" state="normal" draw_ops="close_glyph"/>
+  <button function="minimize" state="normal" draw_ops="minimize_glyph"/>
+  <button function="maximize" state="normal" draw_ops="maximize_glyph"/>
+  <button function="menu" state="normal" draw_ops="menu_glyph"/>
+</frame_style>
+
+<!--Unfocused windows-->
+<frame_style name="normal_unfocused" geometry="normal">
+  <piece position="entire_background" draw_ops="background_unfocused"/>
+  <piece position="title" draw_ops="title_text_unfocused"/>
+  <piece position="titlebar" draw_ops="background_unfocused"/>
+  <button function="close" state="normal" draw_ops="close_glyph"/>
+  <button function="minimize" state="normal" draw_ops="minimize_glyph"/>
+  <button function="maximize" state="normal" draw_ops="maximize_glyph"/>
+  <button function="menu" state="normal" draw_ops="menu_glyph"/>
+</frame_style>
+
+<frame_style name="maximized_focused" geometry="normal_small_borders" parent="normal_focused">
+  <piece position="entire_background" draw_ops="max_background_focused"/>
+</frame_style>
+
+<frame_style name="maximized_unfocused" geometry="normal_small_borders" parent="normal_unfocused">
+  <piece position="entire_background" draw_ops="max_background_unfocused"/>
+</frame_style>
+
+<frame_style name="utility_focused" geometry="utility" parent="normal_focused"/>
+<frame_style name="utility_unfocused" geometry="utility" parent="normal_unfocused"/>
+
+<frame_style name="border" geometry="border" parent="normal_unfocused">
+  <piece position="entire_background" draw_ops="background_unfocused"/>
+  <piece position="title" draw_ops="blank"/>
+</frame_style>
+
+<!--Style sets-->
+<frame_style_set name="normal_set">
+  <frame focus="yes" state="normal" resize="both" style="normal_focused"/>
+  <frame focus="no" state="normal" resize="both" style="normal_unfocused"/>
+  <frame focus="yes" state="maximized" style="maximized_focused"/>
+  <frame focus="no" state="maximized" style="maximized_unfocused"/>
+  <frame focus="yes" state="shaded" style="normal_focused"/>
+  <frame focus="no" state="shaded" style="normal_unfocused"/>
+  <frame focus="yes" state="maximized_and_shaded" style="maximized_focused"/>
+  <frame focus="no" state="maximized_and_shaded" style="maximized_unfocused"/>
+</frame_style_set>
+
+<frame_style_set name="utility_set" parent="normal_set">
+  <frame focus="yes" state="normal" resize="both" style="utility_focused"/>
+  <frame focus="no" state="normal" resize="both" style="utility_unfocused"/>
+  <frame focus="yes" state="shaded" style="utility_focused"/>
+  <frame focus="no" state="shaded" style="utility_unfocused"/>
+  <frame focus="yes" state="maximized_and_shaded" style="utility_focused"/>
+  <frame focus="no" state="maximized_and_shaded" style="utility_unfocused"/>
+</frame_style_set>
+
+<frame_style_set name="border_set">
+  <frame focus="yes" state="normal" resize="both" style="border"/>
+  <frame focus="no" state="normal" resize="both" style="border"/>
+  <frame focus="yes" state="maximized" style="border"/>
+  <frame focus="no" state="maximized" style="border"/>
+  <frame focus="yes" state="shaded" style="border"/>
+  <frame focus="no" state="shaded" style="border"/>
+  <frame focus="yes" state="maximized_and_shaded" style="border"/>
+  <frame focus="no" state="maximized_and_shaded" style="border"/>
+</frame_style_set>
+
+<window type="normal" style_set="normal_set"/>
+<window type="dialog" style_set="normal_set"/>
+<window type="modal_dialog" style_set="normal_set"/>
+<window type="menu" style_set="normal_set"/>
+<window type="utility" style_set="utility_set"/>
+<window type="border" style_set="border_set"/>
+<window type="dock" style_set="border_set"/>
+<window type="desktop" style_set="border_set"/>
+
+<menu_icon function="close" state="normal" draw_ops="close_glyph"/>
+<menu_icon function="maximize" state="normal" draw_ops="maximize_glyph"/>
+<menu_icon function="unmaximize" state="normal" draw_ops="unmaximize_glyph"/>
+<menu_icon function="minimize" state="normal" draw_ops="minimize_glyph"/>
+
+</metacity_theme>

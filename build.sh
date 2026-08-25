@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 # build.sh — Build AcreetionOS-MATE ISO
 # NOTE: deliberately no 'set -e' — mkarchiso can exit non-zero after a valid ISO.
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" || exit 1
 OUTPUT_DIR="${OUTPUT_DIR:-${SCRIPT_DIR}/ISO}"
-cd "$SCRIPT_DIR"
+cd "$SCRIPT_DIR" || exit 1
 echo "  :: AcreetionOS-MATE — Building ISO"
 echo "  :: Output: ${OUTPUT_DIR}"
 if [ -f ./generate-build-info.sh ]; then ./generate-build-info.sh; fi
 echo "  :: Cleaning workspace..."
 ./refresh.sh -j 2>/dev/null || true
+echo "  :: Compiling AcreetionOS brand defaults (dconf system db)..."
+dconf compile "${SCRIPT_DIR}/airootfs/etc/dconf/db/acreetion" \
+              "${SCRIPT_DIR}/airootfs/etc/dconf/db/acreetion.d" || exit 1
+chmod 644 "${SCRIPT_DIR}/airootfs/etc/dconf/db/acreetion"
 echo "  :: Running mkarchiso..."
 mkdir -p "${OUTPUT_DIR}"
 ./mkarchiso.sh || true

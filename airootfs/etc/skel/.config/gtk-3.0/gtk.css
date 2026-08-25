@@ -1,0 +1,29 @@
+/* AcreetionOS brand accents on top of adw-gtk3-dark
+   green #2ecc71 | bg #121212 | panel #1a1a1a | box #222222 | border #333333 */
+@define-color accent_color #2ecc71;
+@define-color accent_bg_color #2ecc71;
+@define-color accent_fg_color #121212;
+
+@define-color window_bg_color #121212;
+@define-color window_fg_color #e5e5e5;
+
+@define-color view_bg_color #1a1a1a;
+@define-color view_fg_color #e5e5e5;
+
+@define-color headerbar_bg_color #1a1a1a;
+@define-color headerbar_fg_color #e5e5e5;
+@define-color headerbar_border_color #333333;
+
+@define-color card_bg_color #222222;
+
+@define-color popover_bg_color #222222;
+@define-color dialog_bg_color #1a1a1a;
+
+@define-color sidebar_bg_color #1a1a1a;
+@define-color sidebar_fg_color #b2b2b2;
+
+@define-color theme_selected_bg_color #2ecc71;
+@define-color theme_selected_fg_color #121212;
+@define-color theme_bg_color #121212;
+@define-color theme_fg_color #e5e5e5;
+@define-color borders #333333;

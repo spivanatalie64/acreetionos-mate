@@ -1,0 +1,10 @@
+[X-GNOME-Metatheme]
+Name=AcreetionOS
+Encoding=UTF-8
+
+X-GNOME-Metatheme-GtkTheme=adw-gtk3-dark
+X-GNOME-Metatheme-IconTheme=Adwaita
+X-GNOME-Metatheme-MetacityTheme=AcreetionOS
+X-GNOME-Metatheme-BackgroundColor=#121212
+X-GNOME-Metatheme-ForegroundColor=#e5e5e5
+X-GNOME-Metatheme-AccentColor=#2ecc71

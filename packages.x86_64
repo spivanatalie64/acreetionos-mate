@@ -56,10 +56,6 @@ xorg-server-common
 mesa
 mesa-utils
 glu
-vulkan-headers
-ocl-icd
-opencl-headers
-directx-headers
 xf86-video-amdgpu
 xf86-video-intel
 xf86-video-nouveau
@@ -69,6 +65,7 @@ lightdm-gtk-greeter
 gnome-terminal
 gnome-keyring
 gnome-themes-extra
+adw-gtk-theme
 xdg-desktop-portal-xapp
 xdg-user-dirs
 xdg-user-dirs-gtk
@@ -126,13 +123,8 @@ intel-ucode
 chrony
 vlc
 gnome-system-monitor
-samba
 fastfetch
-base-devel
 git
-python-pip
-rust
-nodejs
 open-vm-tools
 qemu-guest-agent
 virtualbox-guest-utils-nox

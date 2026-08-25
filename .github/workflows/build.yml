@@ -20,7 +20,7 @@ jobs:
       - name: Install deps
         run: |
           pacman -Sy --noconfirm archlinux-keyring
-          pacman -S --noconfirm --needed archiso squashfs-tools dosfstools erofs-utils mtools xorriso libarchive grub edk2-shell git github-cli
+          pacman -S --noconfirm --needed archiso squashfs-tools dosfstools erofs-utils mtools xorriso libarchive grub edk2-shell git github-cli dconf
       - uses: actions/checkout@v4
       - name: Build ISO
         run: |
@@ -49,19 +49,29 @@ jobs:
             exit 0
           fi
           TAG="build-${{ github.run_number }}"
+          SIZE="$(du -h "$ISO" | cut -f1)"
           if ! gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
             # GitHub release assets cap at 2GiB — xz-compress if needed
             if [ "$(stat -c%s "$ISO")" -ge 2147483648 ]; then
               echo "ISO over 2GiB — compressing for release"
               xz -k -f -9 "$ISO" && ISO="$ISO.xz"
+              SHAFILE="SHA256SUMS.xz.txt"; cp SHA256SUMS "$SHAFILE"
+            else
+              SHAFILE="SHA256SUMS"
             fi
             if [ "$(stat -c%s "$ISO")" -lt 2147483648 ]; then
-              gh release create "$TAG" "$ISO" --repo "${{ github.repository }}"                 --title "build #${{ github.run_number }}"                 --notes "Automated CI build. Commit ${{ github.sha }}."
+              gh release create "$TAG" "$ISO" "$SHAFILE" --repo "${{ github.repository }}"                 --title "AcreetionOS MATE build #${{ github.run_number }}"                 --notes "Automated weekly build.
+
+- Commit: ${{ github.sha }}
+- Image: \`$(basename "$ISO")\` ($SIZE)
+- Verify: \`sha256sum -c $SHAFILE\`
+
+AcreetionOS MATE — lightweight community edition with the full AcreteionOS brand theme (green #2ecc71 on dark #121212)."
             else
               echo "ISO still over 2GiB after xz -9 — skipping release asset (artifact remains in CI)"
             fi
           else
-            gh release upload "$TAG" "$ISO" --repo "${{ github.repository }}" --clobber
+            gh release upload "$TAG" "$ISO" "SHA256SUMS" --repo "${{ github.repository }}" --clobber
           fi
         env:
           GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
